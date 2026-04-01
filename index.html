@@ -1,0 +1,2510 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mifa | Enstrüman Mağazası</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+        }
+
+        :root {
+            /* Neon green accent matching the user request for an elite vibe */
+            --primary-orange: #00ff88;
+            --primary-orange-hover: #00cc66;
+            /* Re-mapping this so existing inline hardcoded "dark gray" text turns light */
+            --dark-gray: #e0e0e0;
+            /* Specific dark theme variables */
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-muted: #aaaaaa;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--dark-gray);
+            /* which is actually #e0e0e0 now */
+            background-color: var(--bg-color);
+            font-weight: 300;
+            /* Lighter weight for more elite look */
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            background-color: rgba(18, 18, 18, 0.85);
+            /* Dark blur */
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.8);
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: var(--primary-orange) !important;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        .navbar-brand span {
+            color: #ffffff;
+            text-shadow: none;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: #dddddd !important;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            padding: 0.5rem 1rem !important;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: var(--primary-orange);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 70%;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-orange) !important;
+            text-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+            color: #dddddd;
+            margin-left: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-icon:hover {
+            color: var(--primary-orange);
+            cursor: pointer;
+            filter: drop-shadow(0 0 5px rgba(0, 255, 136, 0.5));
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            color: white;
+            margin-top: 76px;
+            overflow: hidden;
+        }
+
+        .hero-carousel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .hero-carousel .carousel-inner,
+        .hero-carousel .carousel-item {
+            height: 100%;
+        }
+
+        .hero-carousel img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            /* Siyah, %50 şeffaf katman */
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: #dddddd;
+            margin-bottom: 2.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-custom {
+            background-color: var(--primary-orange);
+            color: #121212;
+            font-weight: 700;
+            padding: 14px 40px;
+            border-radius: 0;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border: 2px solid var(--primary-orange);
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.15);
+        }
+
+        .btn-custom:hover {
+            background-color: transparent;
+            color: var(--primary-orange);
+            border-color: var(--primary-orange);
+            box-shadow: 0 0 25px rgba(0, 255, 136, 0.4);
+        }
+
+        /* Section Titles */
+        .section-title {
+            text-align: center;
+            margin: 5rem 0 4rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            position: relative;
+            font-size: 2.2rem;
+            letter-spacing: 2px;
+            color: #ffffff;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background-color: var(--primary-orange);
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
+        }
+
+        /* Product Cards */
+        .product-card {
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            /* subtle soft corner */
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            margin-bottom: 2rem;
+            background-color: var(--card-bg);
+            /* #1e1e1e */
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            border-color: rgba(0, 255, 136, 0.3);
+        }
+
+        .card-img-wrapper {
+            position: relative;
+            overflow: hidden;
+            background-color: rgba(255, 255, 255, 0.02);
+            /* Very subtle contrast for imgs */
+            padding: 1rem;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .product-card img {
+            max-height: 100%;
+            max-width: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .product-card:hover img {
+            transform: scale(1.1);
+            filter: blur(4px);
+        }
+
+        .card-hover-overlay {
+            position: absolute;
+            bottom: -100%;
+            /* Start outside the wrapper */
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            transition: bottom 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            z-index: 10;
+        }
+
+        .product-card:hover .card-hover-overlay {
+            bottom: 0;
+        }
+
+        .card-hover-desc {
+            color: #ffffff;
+            font-size: 0.85rem;
+            text-align: center;
+            margin-bottom: 1.2rem;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .btn-hover-detail {
+            background-color: transparent;
+            color: var(--primary-orange);
+            border: 1px solid var(--primary-orange);
+            padding: 6px 14px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .btn-hover-detail:hover {
+            background-color: var(--primary-orange);
+            color: #121212;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+        }
+
+        .card-body {
+            padding: 1.8rem 1.5rem;
+            text-align: center;
+        }
+
+        .product-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: #ffffff;
+            text-decoration: none;
+            display: block;
+            min-height: 50px;
+            transition: color 0.3s ease;
+        }
+
+        .product-title:hover {
+            color: var(--primary-orange);
+            text-shadow: 0 0 8px rgba(0, 255, 136, 0.3);
+        }
+
+        .product-category {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 0.8rem;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+
+        .product-price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-orange);
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
+        }
+
+        .btn-cart {
+            width: 100%;
+            background-color: #2a2a2a;
+            /* Explicit dark gray instead of variable */
+            color: #ffffff;
+            border: 1px solid transparent;
+            padding: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            letter-spacing: 1px;
+        }
+
+        .btn-cart:hover {
+            background-color: var(--primary-orange);
+            color: #121212;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+        }
+
+        .badge-new {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--primary-orange);
+            color: #121212;
+            padding: 6px 14px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            z-index: 2;
+            letter-spacing: 1.5px;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
+        }
+
+        .badge-discount {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: #ff2a5f;
+            color: white;
+            padding: 6px 14px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            z-index: 2;
+            letter-spacing: 1.5px;
+            box-shadow: 0 0 10px rgba(255, 42, 95, 0.5);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #080808;
+            color: var(--text-muted);
+            padding: 5rem 0 3rem;
+            margin-top: 6rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-logo {
+            font-weight: 700;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-orange);
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+            letter-spacing: 2px;
+        }
+
+        .footer-logo span {
+            color: #ffffff;
+            text-shadow: none;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            border-radius: 50%;
+            margin: 0 8px;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .social-icons a:hover {
+            background-color: var(--primary-orange);
+            color: #121212;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 255, 136, 0.4);
+        }
+
+        .card-img-top {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        /* Z-Index & Backdrop Fixes */
+        .modal-backdrop,
+        .offcanvas-backdrop {
+            z-index: 1040 !important;
+        }
+
+        .modal,
+        .offcanvas {
+            z-index: 1050 !important;
+        }
+
+        .navbar {
+            z-index: 1030 !important;
+        }
+
+        /* Modal Dark Theme Overrides & Blur */
+        .modal-backdrop.show,
+        .offcanvas-backdrop.show {
+            opacity: 1;
+            background-color: rgba(0, 0, 0, 0.8) !important;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Override inline bg-light class inside modals */
+        .modal-body .bg-light {
+            background-color: #181818 !important;
+            /* Very dark, almost black for contrast with image */
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Invert close button to white */
+        .btn-close {
+            filter: invert(1) grayscale(100%) brightness(200%);
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .btn-close:hover {
+            opacity: 1;
+        }
+
+        /* Modal Typography overrides (fixing inline styles mapped to light mode) */
+        .modal-body h2.fw-bold {
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.5px;
+        }
+
+        .modal-body p.text-muted {
+            color: #cccccc !important;
+            font-weight: 300 !important;
+        }
+
+        /* Daha belirgin eski fiyatlar */
+        .text-decoration-line-through {
+            color: #b8b8b8 !important;
+            /* Göz yormayan, daha aydınlık bir gri */
+            font-weight: 400 !important;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sticky Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container position-relative">
+            <a class="navbar-brand" href="#">MİFA<span>MÜZİK</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" id="gitarlarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false"
+                            onclick="document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));this.classList.add('active');">Gitarlar</a>
+                        <ul class="dropdown-menu dropdown-menu-dark shadow-lg mt-2" aria-labelledby="gitarlarDropdown"
+                            style="background-color: var(--card-bg); border: 1px solid rgba(255,255,255,0.05);">
+                            <li><a class="dropdown-item filter-link" href="#urunler"
+                                    data-category="Elektro Gitar">Elektro Gitarlar</a></li>
+                            <li><a class="dropdown-item filter-link" href="#urunler"
+                                    data-category="Akustik Gitar">Akustik Gitarlar</a></li>
+                            <li><a class="dropdown-item filter-link" href="#urunler" data-category="Bass Gitar">Bass
+                                    Gitarlar</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="piyanolarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false"
+                            onclick="document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));this.classList.add('active');">Piyanolar
+                            & Tuşlular</a>
+                        <ul class="dropdown-menu dropdown-menu-dark shadow-lg mt-2" aria-labelledby="piyanolarDropdown"
+                            style="background-color: var(--card-bg); border: 1px solid rgba(255,255,255,0.05);">
+                            <li><a class="dropdown-item filter-link" href="#urunler"
+                                    data-category="Dijital Piyano">Dijital Piyanolar</a></li>
+                            <li><a class="dropdown-item filter-link" href="#urunler"
+                                    data-category="Synthesizer">Synthesizer & Klavye</a></li>
+                            <li><a class="dropdown-item filter-link" href="#urunler" data-category="Midi Klavye">Midi
+                                    Klavyeler</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="davulDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false"
+                            onclick="document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));this.classList.add('active');">Davul
+                            & Perküsyon</a>
+                        <ul class="dropdown-menu dropdown-menu-dark shadow-lg mt-2" aria-labelledby="davulDropdown"
+                            style="background-color: var(--card-bg); border: 1px solid rgba(255,255,255,0.05);">
+                            <li><a class="dropdown-item filter-link" href="#urunler"
+                                    data-category="Akustik Davul">Akustik Davullar</a></li>
+                            <li><a class="dropdown-item filter-link" href="#urunler"
+                                    data-category="Elektronik Bateri">Elektronik Bateri</a></li>
+                            <li><a class="dropdown-item filter-link" href="#urunler" data-category="Zil">Ziller &
+                                    Aksamlar</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="studyoDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false"
+                            onclick="document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));this.classList.add('active');">Stüdyo
+                            & Kayıt</a>
+                        <ul class="dropdown-menu dropdown-menu-dark shadow-lg mt-2" aria-labelledby="studyoDropdown"
+                            style="background-color: var(--card-bg); border: 1px solid rgba(255,255,255,0.05);">
+                            <li><a class="dropdown-item filter-link" href="#urunler"
+                                    data-category="Stüdyo Monitörü">Stüdyo Monitörleri</a></li>
+                            <li><a class="dropdown-item filter-link" href="#urunler" data-category="Ses Kartı">Ses
+                                    Kartları</a></li>
+                            <li><a class="dropdown-item filter-link" href="#urunler" data-category="Mikrofon">Stüdyo
+                                    Mikrofonları</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="aksesuarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false"
+                            onclick="document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));this.classList.add('active');">Aksesuarlar</a>
+                        <ul class="dropdown-menu dropdown-menu-dark shadow-lg mt-2" aria-labelledby="aksesuarDropdown"
+                            style="background-color: var(--card-bg); border: 1px solid rgba(255,255,255,0.05);">
+                            <li><a class="dropdown-item filter-link" href="#urunler" data-category="Kablo">Kablolar &
+                                    Konnektörler</a></li>
+                            <li><a class="dropdown-item filter-link" href="#urunler" data-category="Stand">Stand &
+                                    Sehpalar</a></li>
+                            <li><a class="dropdown-item filter-link" href="#urunler" data-category="Bakım">Bakım
+                                    Ürünleri</a></li>
+                            <li><a class="dropdown-item filter-link" href="#urunler" data-category="Baget">Davul
+                                    Bagetleri</a></li>
+                            <li><a class="dropdown-item filter-link" href="#urunler" data-category="Gitar Teli">Gitar
+                                    Telleri</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-search nav-icon" data-bs-toggle="collapse" data-bs-target="#searchCollapse"
+                        aria-expanded="false" aria-controls="searchCollapse"></i>
+                    <i class="bi bi-person nav-icon" id="userLoginIcon" data-bs-toggle="modal"
+                        data-bs-target="#authModal"></i>
+                    <i class="bi bi-cart3 nav-icon position-relative" data-bs-toggle="offcanvas"
+                        data-bs-target="#cartOffcanvas" aria-controls="cartOffcanvas">
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                            id="cartCountBadge" style="font-size: 0.65rem; display:none;">0</span>
+                    </i>
+                </div>
+            </div>
+
+            <!-- Search Bar Collapse -->
+            <div class="collapse position-absolute shadow-lg" id="searchCollapse"
+                style="top: 100%; right: 15px; width: 100%; max-width: 350px; background-color: #1a1a1a; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); z-index: 1025; margin-top: 5px; transition: height 0.3s ease;">
+                <div class="p-2 px-3 d-flex align-items-center">
+                    <i class="bi bi-search"
+                        style="color: var(--primary-orange); font-size: 1.1rem; margin-right: 12px;"></i>
+                    <input type="text" id="searchInput"
+                        class="form-control bg-transparent text-white border-0 shadow-none fs-6 w-100 p-0"
+                        placeholder="Arayın..." style="outline: none;">
+                    <i class="bi bi-x-lg text-white-50 ms-3 fs-5" style="cursor: pointer; transition: color 0.3s;"
+                        onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.5)'"
+                        data-bs-toggle="collapse" data-bs-target="#searchCollapse"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <!-- Carousel Background -->
+        <div id="heroCarousel" class="carousel slide carousel-fade hero-carousel" data-bs-ride="carousel"
+            data-bs-interval="3000" data-bs-pause="false">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="https://carsimuzikmerkezi.com/wp-content/uploads/2022/08/image1-2-1024x683-1.png.webp"
+                        class="d-block w-100" alt="Elektro Gitar">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://mixdownmag.com.au/wp-content/uploads/2021/07/mixdown-magazine-gibson-collectors.jpg"
+                        class="d-block w-100" alt="Profesyonel Davul Seti">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://muzikveyasam.com/wp-content/uploads/2018/06/elektro-gitar-amfisi.jpg.webp"
+                        class="d-block w-100" alt="Bass Gitar ve Amfi">
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-overlay"></div>
+        <div class="container text-center position-relative" style="z-index: 2;">
+            <h1>Müziğin Ritmini Yakala</h1>
+            <p>Dünyanın en iyi markaları, efsanevi tonlarla Mifa Müzik'te seni bekliyor.</p>
+            <a href="#urunler" class="btn btn-custom">KEŞFET</a>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="urunler" class="container">
+        <h2 class="section-title">En Çok Satanlar</h2>
+
+        <div id="filterFeedback" class="text-center mb-5"
+            style="display: none; transition: opacity 0.5s ease; opacity: 0;">
+            <div class="d-inline-flex align-items-center bg-dark px-4 py-3"
+                style="border-radius: 50px; border: 1px solid rgba(0,255,136,0.3); box-shadow: 0 0 15px rgba(0,255,136,0.1);">
+                <span class="mb-0" style="color: var(--dark-gray); font-size: 1rem;"><strong id="filterCategoryName"
+                        style="color: var(--primary-orange); letter-spacing: 0.5px;"></strong> kategorisindeki ürünler
+                    listeleniyor</span>
+                <button id="btnViewAll" class="btn btn-sm btn-outline-light ms-4 rounded-pill px-3"
+                    style="font-size: 0.75rem; text-transform: uppercase; font-weight: 600;">Tümünü Gör</button>
+            </div>
+        </div>
+
+        <div class="row g-4" id="productList">
+            <!-- Product 1 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3" id="gitarlar">
+                <div class="product-card d-flex flex-column" data-bs-toggle="modal" data-bs-target="#productModal1"
+                    style="cursor: pointer;">
+                    <div class="badge-new">YENİ</div>
+                    <div class="card-img-wrapper">
+                        <img src="https://waltgracevintage.com/cdn/shop/products/IMG_1307.jpg?v=1737586478"
+                            alt="Elektro Gitar">
+                        <div class="card-hover-overlay">
+                            <p class="card-hover-desc">Alder gövde, SSS manyetik konfigürasyonu ve klasik
+                                Stratocaster
+                                tonu. Sahnede parlamak isteyenler için.</p>
+                            <span class="btn-hover-detail">Detayları Gör</span>
+                        </div>
+                    </div>
+                    <div class="card-body d-flex flex-column flex-grow-1">
+                        <div class="product-category">Elektro Gitar</div>
+                        <a href="#" class="product-title">Fender Player Stratocaster MN</a>
+                        <div class="product-price mt-auto">55.750 ₺</div>
+                        <button class="btn btn-cart">Sepete Ekle</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3" id="piyanolar">
+                <div class="product-card d-flex flex-column" data-bs-toggle="modal" data-bs-target="#productModal2"
+                    style="cursor: pointer;">
+                    <div class="badge-discount">%15 İNDİRİM</div>
+                    <div class="card-img-wrapper">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS41IGCUCmwwGHQ9sRchpanIrNgNBs3s8Yz_g&s"
+                            alt="Dijital Piyano">
+                        <div class="card-hover-overlay">
+                            <p class="card-hover-desc">TD-17 modül gücü, hassas mesh padler ve gerçeğe en yakın
+                                profesyonel çalma hissi.</p>
+                            <span class="btn-hover-detail">Detayları Gör</span>
+                        </div>
+                    </div>
+                    <div class="card-body d-flex flex-column flex-grow-1">
+                        <div class="product-category">Elektronik Bateri</div>
+                        <a href="#" class="product-title">ROLAND TD-17KVX2 </a>
+                        <div class="product-price mt-auto">106.800 ₺ <br> <span
+                                class="text-muted text-decoration-line-through fs-6">125.550 ₺</span></div>
+                        <button class="btn btn-cart">Sepete Ekle</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3" id="davul">
+                <div class="product-card d-flex flex-column" data-bs-toggle="modal" data-bs-target="#productModal3"
+                    style="cursor: pointer;">
+                    <div class="card-img-wrapper">
+                        <img src="https://cdn-image.bonedo.de/wp-media-folder-bonedoapp/uploads/2024/02/02_Tama_Superstar_50th_Anniv_Set-1024x614.jpg"
+                            alt="Akustik Davul">
+                        <div class="card-hover-overlay">
+                            <p class="card-hover-desc">Akçaağaç sıcaklığı, 50. yıla özel sınırlı üretim Tama
+                                kalitesi ve
+                                eşsiz stüdyo tonu.</p>
+                            <span class="btn-hover-detail">Detayları Gör</span>
+                        </div>
+                    </div>
+                    <div class="card-body d-flex flex-column flex-grow-1">
+                        <div class="product-category">Akustik Davul</div>
+                        <a href="#" class="product-title">TAMA Superstar 50th Anniversary</a>
+                        <div class="product-price mt-auto">88.800 ₺</div>
+                        <button class="btn btn-cart">Sepete Ekle</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="product-card d-flex flex-column" data-bs-toggle="modal" data-bs-target="#productModal4"
+                    style="cursor: pointer;">
+                    <div class="card-img-wrapper">
+                        <img src="https://www.musicbros.co.uk/cdn/shop/files/Gibson-Dove-Mahogany-Satin-Vintage-Sunburst-Electro-Acoustic-Music-Bros-012.jpg?v=1750678151&width=1445"
+                            alt="Akustik Gitar">
+                        <div class="card-hover-overlay">
+                            <p class="card-hover-desc">Ladin kapak ve akçaağaç gövdeyle efsanevi Gibson rezonansı.
+                                Özel
+                                Dove işçiliği.</p>
+                            <span class="btn-hover-detail">Detayları Gör</span>
+                        </div>
+                    </div>
+                    <div class="card-body d-flex flex-column flex-grow-1">
+                        <div class="product-category">Akustik Gitar</div>
+                        <a href="#" class="product-title">Gibson Acoustic Dove Elektro Akustik Gitar (Vintage
+                            Sunburst
+                            Satin)</a>
+                        <div class="product-price mt-auto">285.750 ₺</div>
+                        <button class="btn btn-cart">Sepete Ekle</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="product-card d-flex flex-column" data-bs-toggle="modal" data-bs-target="#productModal5"
+                    style="cursor: pointer;">
+                    <div class="card-img-wrapper">
+                        <img src="https://guitargeargiveaway.co.uk/wp-content/uploads/2026/02/Epiphone-Inspired-by-Gibson-Explorer-80s-EMG-Classic-White-2-scaled.jpg"
+                            alt="Stüdyo Monitörü">
+                        <div class="card-hover-overlay">
+                            <p class="card-hover-desc">Aktif EMG manyetikler, ikonik Explorer kasa tasarımı ve
+                                agresif
+                                80'ler metal tonları.</p>
+                            <span class="btn-hover-detail">Detayları Gör</span>
+                        </div>
+                    </div>
+                    <div class="card-body d-flex flex-column flex-grow-1">
+                        <div class="product-category">Elektro Gitar</div>
+                        <a href="#" class="product-title">Epiphone Inspired by Gibson Explorer ‘80s EMG Elektro
+                            Gitar
+                            (Classic White)</a>
+                        <div class="product-price mt-auto">67.800 ₺</div>
+                        <button class="btn btn-cart">Sepete Ekle</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="product-card d-flex flex-column" data-bs-toggle="modal" data-bs-target="#productModal6"
+                    style="cursor: pointer;">
+                    <div class="badge-new">YENİ</div>
+                    <div class="card-img-wrapper">
+                        <img src="https://www.wolfmusiccompany.com/cdn/shop/files/wbeau0dzk4eti5zvw7ze.jpg?v=1708724680"
+                            alt="Synthesizer">
+                        <div class="card-hover-overlay">
+                            <p class="card-hover-desc">Modern basçılar için üretilmiş 3-bant aktif EQ ve hafif
+                                gövdeli,
+                                sarsıcı ESP LTD kalitesi.</p>
+                            <span class="btn-hover-detail">Detayları Gör</span>
+                        </div>
+                    </div>
+                    <div class="card-body d-flex flex-column flex-grow-1">
+                        <div class="product-category">Bass Gitar</div>
+                        <a href="#" class="product-title">ESP-LTD MLB-4 BLACK BLAST</a>
+                        <div class="product-price mt-auto">90.000 ₺</div>
+                        <button class="btn btn-cart">Sepete Ekle</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 7 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3" id="studyo">
+                <div class="product-card d-flex flex-column" data-bs-toggle="modal" data-bs-target="#productModal7"
+                    style="cursor: pointer;">
+                    <div class="card-img-wrapper">
+                        <img src="https://images.ctfassets.net/javen7msabdh/5gScCQSK6zAn6lApQDk1aM/bc20eef674b7c22e362ea0f765e9c5fe/jvm410h-lifestyle-mobile-2.jpg?w=2880&fm=jpg&q=85"
+                            alt="Amfi">
+                        <div class="card-hover-overlay">
+                            <p class="card-hover-desc">%100 lambalı yapı, 4 bağımsız kanal ile efsanevi Marshall
+                                performansında yüzlerce ton varyasyonu.</p>
+                            <span class="btn-hover-detail">Detayları Gör</span>
+                        </div>
+                    </div>
+                    <div class="card-body d-flex flex-column flex-grow-1">
+                        <div class="product-category">Elektro Gitar Amfisi</div>
+                        <a href="#" class="product-title">Marshall JVM410H Kafa Amfisi</a>
+                        <div class="product-price mt-auto">121.100 ₺</div>
+                        <button class="btn btn-cart">Sepete Ekle</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 8 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3" id="aksesuar">
+                <div class="product-card d-flex flex-column" data-bs-toggle="modal" data-bs-target="#productModal8"
+                    style="cursor: pointer;">
+                    <div class="card-img-wrapper">
+                        <img src="https://cdn11.bigcommerce.com/s-c3f06q9uvc/images/stencil/1280x1280/products/524171/2145148/e5d9c41f-488b-4835-bd7f-9cfbc0e31ac1__24347.1773877415.jpg?c=1"
+                            alt="Amfi">
+                        <div class="card-hover-overlay">
+                            <p class="card-hover-desc">Çift zincirli tahrik, mükemmel pürüzsüz aktarım ve her
+                                vuruşta
+                                hissedilen maksimum güç.</p>
+                            <span class="btn-hover-detail">Detayları Gör</span>
+                        </div>
+                    </div>
+                    <div class="card-body d-flex flex-column flex-grow-1">
+                        <div class="product-category">Zil & Aksam</div>
+                        <a href="#" class="product-title">Dw Drums DWCP3002 Double Kick Pedal</a>
+                        <div class="product-price mt-auto">50.950 ₺</div>
+                        <button class="btn btn-cart">Sepete Ekle</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 9 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="product-card d-flex flex-column" data-bs-toggle="modal" data-bs-target="#productModal9"
+                    style="cursor: pointer;">
+                    <div class="badge-new">ÖNERİLEN</div>
+                    <div class="card-img-wrapper">
+                        <img src="https://media.mydukkan.com/image/41573/OBJE/fp-30xcontentphoto141573.jpg"
+                            alt="Roland FP-30X">
+                        <div class="card-hover-overlay">
+                            <p class="card-hover-desc">SuperNATURAL ses motoru ve PHA-4 standart klavyesi ile
+                                piyanistlerin favorisi FP-30X.</p>
+                            <span class="btn-hover-detail">Detayları Gör</span>
+                        </div>
+                    </div>
+                    <div class="card-body d-flex flex-column flex-grow-1">
+                        <div class="product-category">Dijital Piyano</div>
+                        <a href="#" class="product-title">Roland FP-30X Dijital Piyano</a>
+                        <div class="product-price mt-auto">45.500 ₺</div>
+                        <button class="btn btn-cart">Sepete Ekle</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 10 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="product-card d-flex flex-column" data-bs-toggle="modal" data-bs-target="#productModal10"
+                    style="cursor: pointer;">
+                    <div class="card-img-wrapper">
+                        <img src="https://astrings.co.uk/cdn/shop/products/p45.jpg?v=1676461642&width=1080"
+                            alt="Yamaha P-45 B">
+                        <div class="card-hover-overlay">
+                            <p class="card-hover-desc">GHS klavyesi ile gerçek akustik piyano dokunuşunu hissettiren
+                                taşınabilir efsane.</p>
+                            <span class="btn-hover-detail">Detayları Gör</span>
+                        </div>
+                    </div>
+                    <div class="card-body d-flex flex-column flex-grow-1">
+                        <div class="product-category">Dijital Piyano</div>
+                        <a href="#" class="product-title">Yamaha P-45 B Dijital Piyano</a>
+                        <div class="product-price mt-auto">22.800 ₺</div>
+                        <button class="btn btn-cart">Sepete Ekle</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 11 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="product-card d-flex flex-column" data-bs-toggle="modal" data-bs-target="#productModal11"
+                    style="cursor: pointer;">
+                    <div class="badge-new">YENİ</div>
+                    <div class="card-img-wrapper">
+                        <img src="https://data.do-re.com.tr/Content/files/scarlett-2i2-4g-lifestyle-2.jpg"
+                            alt="Focusrite Scarlett">
+                        <div class="card-hover-overlay">
+                            <p class="card-hover-desc">Dördüncü nesil preampler ve Auto Gain özelliği ile ev stüdyonuzda
+                                kusursuz kayıtlar.</p>
+                            <span class="btn-hover-detail">Detayları Gör</span>
+                        </div>
+                    </div>
+                    <div class="card-body d-flex flex-column flex-grow-1">
+                        <div class="product-category">Ses Kartı</div>
+                        <a href="#" class="product-title">Focusrite Scarlett 2i2 Gen4 Ses Kartı</a>
+                        <div class="product-price mt-auto">13.000 ₺</div>
+                        <button class="btn btn-cart">Sepete Ekle</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 12 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="product-card d-flex flex-column" data-bs-toggle="modal" data-bs-target="#productModal12"
+                    style="cursor: pointer;">
+                    <div class="card-img-wrapper">
+                        <img src="https://www.sescibaba.com/sm-7b-cardioid-mikrofon-shure-sm7b-vokal-microphone-86972-44-B.webp"
+                            alt="Shure SM7B">
+                        <div class="card-hover-overlay">
+                            <p class="card-hover-desc">Pürüzsüz vokal kayıtları, yayıncılar ve podcast yayıncılarının
+                                değişmez ilk tercihi.</p>
+                            <span class="btn-hover-detail">Detayları Gör</span>
+                        </div>
+                    </div>
+                    <div class="card-body d-flex flex-column flex-grow-1">
+                        <div class="product-category">Mikrofon</div>
+                        <a href="#" class="product-title">Shure SM7B Vokal Mikrofonu</a>
+                        <div class="product-price mt-auto">38.750 ₺</div>
+                        <button class="btn btn-cart">Sepete Ekle</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 13 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="product-card d-flex flex-column" data-bs-toggle="modal" data-bs-target="#productModal13"
+                    style="cursor: pointer;">
+                    <div class="card-img-wrapper">
+                        <img src="https://img-zuhalmuzik.mncdn.com/mnresize/1000/1000/images/product/1610045A_3.jpg"
+                            alt="Vic Firth 5A American Classic">
+                        <div class="card-hover-overlay">
+                            <p class="card-hover-desc">Hickory ağacından üretilmiş, dünyadaki en popüler ve standart 5A
+                                American Classic serisi baget.</p>
+                            <span class="btn-hover-detail">Detayları Gör</span>
+                        </div>
+                    </div>
+                    <div class="card-body d-flex flex-column flex-grow-1">
+                        <div class="product-category">Baget</div>
+                        <a href="#" class="product-title">Vic Firth 5A American Classic Bateri Bageti</a>
+                        <div class="product-price mt-auto">900 ₺</div>
+                        <button class="btn btn-cart">Sepete Ekle</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 14 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="product-card d-flex flex-column" data-bs-toggle="modal" data-bs-target="#productModal14"
+                    style="cursor: pointer;">
+                    <div class="card-img-wrapper">
+                        <img src="https://www.nstuffmusic.com/images/product/large/ae00-10486_1_.jpg" alt="Ernie Ball">
+                        <div class="card-hover-overlay">
+                            <p class="card-hover-desc">Regular Slinky 10-46 Elektro Gitar Teli, yılların eskitemediği
+                                klasik ton ve hissiyat.</p>
+                            <span class="btn-hover-detail">Detayları Gör</span>
+                        </div>
+                    </div>
+                    <div class="card-body d-flex flex-column flex-grow-1">
+                        <div class="product-category">Gitar Teli</div>
+                        <a href="#" class="product-title">Ernie Ball 2221 Regular Slinky 10-46 Elektro Gitar Teli</a>
+                        <div class="product-price mt-auto">380 ₺</div>
+                        <button class="btn btn-cart">Sepete Ekle</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 15 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="product-card d-flex flex-column" data-bs-toggle="modal" data-bs-target="#productModal15"
+                    style="cursor: pointer;">
+                    <div class="card-img-wrapper">
+                        <img src="https://cdn.do-re.com.tr/zildjian-k-custom-hybrid-zil-seti-1425-hh-16c-18c-20r-c6b0807d760f2b139bb9b331eb2932ac-88046e5c07914e61572a2c489b0b00a1-max-pp.jpg"
+                            alt="Zildjian K Custom Hybrid Zil Seti">
+                        <div class="card-hover-overlay">
+                            <p class="card-hover-desc">Davulcuların rüyası K Custom Hybrid efsanesi. Parlak ve karanlık
+                                tonların muazzam uyumu.</p>
+                            <span class="btn-hover-detail">Detayları Gör</span>
+                        </div>
+                    </div>
+                    <div class="card-body d-flex flex-column flex-grow-1">
+                        <div class="product-category">Zil & Aksam</div>
+                        <a href="#" class="product-title">Zildjian K Custom Hybrid Zil Seti (14.25" / 16" / 18" /
+                            20")</a>
+                        <div class="product-price mt-auto">90.000 ₺</div>
+                        <button class="btn btn-cart">Sepete Ekle</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <div class="footer-logo">MİFA<span>MÜZİK</span></div>
+            <p class="text-white-50 mb-4">Müziğin kalbi burada atıyor. Tüm enstrüman ihtiyaçlarınız için
+                yanınızdayız.
+            </p>
+            <div class="social-icons mb-4">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#socialModal"><i
+                        class="bi bi-instagram fs-5"></i></a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#socialModal"><i class="bi bi-facebook fs-5"></i></a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#socialModal"><i
+                        class="bi bi-twitter-x fs-5"></i></a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#socialModal"><i class="bi bi-youtube fs-5"></i></a>
+            </div>
+            <div class="mb-3 d-flex justify-content-center flex-wrap gap-3">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal"
+                    class="text-white-50 text-decoration-none small" style="transition: all 0.3s ease;"
+                    onmouseover="this.style.color='var(--primary-orange)'; this.style.textShadow='0 0 12px rgba(0, 255, 136, 0.8)'"
+                    onmouseout="this.style.color='rgba(255,255,255,0.5)'; this.style.textShadow='none'">Kişisel
+                    Verilerin Korunması ve Gizlilik
+                    Politikası</a>
+                <a href="#" class="text-white-50 text-decoration-none small" style="transition: all 0.3s ease;"
+                    onmouseover="this.style.color='var(--primary-orange)'; this.style.textShadow='0 0 12px rgba(0, 255, 136, 0.8)'"
+                    onmouseout="this.style.color='rgba(255,255,255,0.5)'; this.style.textShadow='none'">Mesafeli Satış
+                    Sözleşmesi</a>
+            </div>
+            <p class="text-white-50 small mb-0">Tüm Hakları Saklıdır &copy; 2005 MİFA MÜZİK A.Ş. | Mert Ali Kandemir</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Social Media Modal -->
+    <div class="modal fade" id="socialModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content rounded-0 border-0"
+                style="background-color: var(--card-bg); border: 1px solid rgba(255,255,255,0.05) !important;">
+                <div class="modal-header border-0 pb-0 pt-3 pe-3">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        style="filter: invert(1) grayscale(100%) brightness(200%);"></button>
+                </div>
+                <div class="modal-body text-center p-4 pt-1">
+                    <i class="bi bi-emoji-smile text-muted mb-3 d-block"
+                        style="font-size: 3rem; color: var(--primary-orange) !important;"></i>
+                    <h5 class="text-white fw-bold mb-2">Çok Yakında...</h5>
+                    <p class="text-white-50 small mb-0">Şu anlık aktif bir sosyal medya hesabımız yoktur. Çok yakında
+                        buralardayız!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gizlilik Politikası Modal -->
+    <div class="modal fade" id="privacyModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content rounded-0 border-0" style="background-color: var(--bg-color);">
+                <div class="modal-header border-bottom border-secondary"
+                    style="border-color: rgba(255,255,255,0.1) !important;">
+                    <h5 class="modal-title fw-bold" style="color: var(--primary-orange);">KİŞİSEL VERİLERİN
+                        KORUNMASI VE
+                        GİZLİLİK POLİTİKASI</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        style="filter: invert(1) grayscale(100%) brightness(200%);"></button>
+                </div>
+                <div class="modal-body p-4 text-light" style="font-size: 0.9rem; line-height: 1.8;">
+                    <h6 class="text-white fw-bold mb-2">1. GİRİŞ</h6>
+                    <p>MİFA MÜZİK A.Ş. (“MİFA MÜZİK” veya “Şirket”) olarak, müşterilerimizin ve web sitemizi ziyaret
+                        eden tüm bireylerin kişisel verilerinin korunmasına en yüksek düzeyde önem vermekteyiz. Bu
+                        Gizlilik Politikası, 6698 sayılı Kişisel Verilerin Korunması Kanunu (“KVKK”) uyarınca
+                        kişisel
+                        verilerinizin nasıl toplandığı, işlendiği, aktarıldığı ve korunduğu hakkında sizi
+                        bilgilendirmek
+                        amacıyla hazırlanmıştır.</p>
+
+                    <h6 class="text-white fw-bold mb-2 mt-4">2. İŞLENEN KİŞİSEL VERİLERİNİZ</h6>
+                    <p>Web sitemiz üzerinden ürün satın alırken veya üye olurken bizimle paylaştığınız: <br>
+                        • Kimlik verileriniz (Ad, Soyad vb.) <br>
+                        • İletişim verileriniz (E-posta, Telefon Numarası, Adres) <br>
+                        • Müşteri işlem verileriniz (Sipariş geçmişi, Fatura bilgileri) <br>
+                        • İşlem güvenliği verileriniz (IP adresi, Çerez (cookie) bilgileri) güvenli bir şekilde
+                        işlenmektedir.</p>
+
+                    <h6 class="text-white fw-bold mb-2 mt-4">3. KİŞİSEL VERİLERİNİZİN İŞLENME AMACI</h6>
+                    <p>Toplanan kişisel verileriniz aşağıdaki amaçlar doğrultusunda işlenmektedir: <br>
+                        • Satın alma işlemlerinizin başarıyla tamamlanması ve teslimatın sağlanması, <br>
+                        • Ürünlerimizle ilgili satış sonrası destek hizmetlerinin sunulması, <br>
+                        • Açık rızanız olması halinde size özel kampanyaların, indirimlerin bildirilmesi, <br>
+                        • Web sitemizin kullanıcı deneyimini geliştirebilmek için istatistiksel çalışmalar
+                        yapılması.
+                    </p>
+
+                    <h6 class="text-white fw-bold mb-2 mt-4">4. BİLGİ GÜVENLİĞİ VE KORUMA</h6>
+                    <p>MİFA MÜZİK, kişisel verilerinizin yetkisiz erişime, kaybolmasına veya sızdırılmasına karşı
+                        dünya
+                        standartlarında teknolojik güvenlik önlemlerini (256-bit SSL şifreleme, güvenlik duvarları)
+                        kullanmaktadır. Kart ödeme ekranlarına girilen veriler hiçbir şekilde MİFA sistemi üzerinde
+                        saklanmaz, doğrudan BDDK onaylı ödeme kuruluşlarına iletilir.</p>
+
+                    <h6 class="text-white fw-bold mb-2 mt-4">5. VERİLERİN ÜÇÜNCÜ KİŞİLERLE PAYLAŞIMI</h6>
+                    <p>Kişisel verileriniz, yalnızca siparişinizin tarafınıza ulaştırılabilmesi için kargo
+                        firmalarıyla
+                        ve yasal zorunluluklar gereği yetkili kamu kurumlarıyla paylaşılabilmektedir. Bunun dışında
+                        verileriniz asla 3. taraflara satılmaz veya ticari amaçla paylaşılamaz.</p>
+
+                    <h6 class="text-white fw-bold mb-2 mt-4">6. HAKLARINIZ (KVKK Madde 11)</h6>
+                    <p>KVKK kapsamında kişisel verilerinizin işlenip işlenmediğini öğrenme, işlenmişse bilgi talep
+                        etme,
+                        eksik veya yanlış işlenmişse düzeltilmesini isteme ve yasal şartlar oluştuğunda silinmesini
+                        talep etme hakkına sahipsiniz. Taleplerinizi <a href="mailto:kvkk@mifamuzik.com"
+                            style="color: var(--primary-orange); text-decoration: none;">kvkk@mifamuzik.com</a>
+                        adresi
+                        üzerinden bize iletebilirsiniz.</p>
+                </div>
+                <div class="modal-footer border-top border-secondary"
+                    style="border-color: rgba(255,255,255,0.1) !important;">
+                    <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Okudum,
+                        Anladım</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Modal 1 -->
+    <div class="modal fade" id="productModal1" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-0 border-0">
+                <div class="modal-body p-0">
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3 z-3"
+                        data-bs-dismiss="modal"></button>
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light d-flex align-items-center justify-content-center p-4">
+                            <img src="https://waltgracevintage.com/cdn/shop/products/IMG_1307.jpg?v=1737586478"
+                                class="img-fluid" alt="Elektro Gitar" style="max-height: 400px; object-fit: contain;">
+                        </div>
+                        <div class="col-md-7 p-5">
+                            <h6 class="text-uppercase mb-2"
+                                style="color: var(--primary-orange); letter-spacing: 1px; font-size: 0.85rem; font-weight: 700;">
+                                Elektro Gitar</h6>
+                            <h2 class="fw-bold mb-3" style="color: var(--dark-gray);">Fender Player Stratocaster MN
+                            </h2>
+                            <ul class="list-group list-group-flush bg-transparent mb-3">
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pb-2 pt-0">
+                                    <i class="bi bi-tree text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Gövde Tipi:</span> Alder (Kızılağaç)
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 py-2">
+                                    <i class="bi bi-music-note-list text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Sap (Neck):</span> Akçaağaç (Maple)
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pt-2 pb-0">
+                                    <i class="bi bi-magnet text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Manyetik:</span> SSS (3x Single Coil)
+                                </li>
+                            </ul>
+                            <p class="small mb-3 fw-bold" style="color: #ffaa00;"><i
+                                    class="bi bi-exclamation-circle me-1"></i>Stok Durumu: Sınırlı Sayıda</p>
+                            <hr class="border-secondary mb-3 mt-0" style="opacity: 0.2;">
+                            <h3 class="fw-bold mb-4" style="color: var(--primary-orange);">55.750 ₺</h3>
+                            <button class="btn btn-custom w-100 py-3 text-uppercase fw-bold btn-modal-cart"
+                                style="letter-spacing: 1px;"><i class="bi bi-cart-plus me-2"></i>Sepete
+                                Ekle</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2 -->
+    <div class="modal fade" id="productModal2" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-0 border-0">
+                <div class="modal-body p-0">
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3 z-3"
+                        data-bs-dismiss="modal"></button>
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light d-flex align-items-center justify-content-center p-4">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS41IGCUCmwwGHQ9sRchpanIrNgNBs3s8Yz_g&s"
+                                class="img-fluid" alt="Dijital Piyano" style="max-height: 400px; object-fit: contain;">
+                        </div>
+                        <div class="col-md-7 p-5">
+                            <h6 class="text-uppercase mb-2"
+                                style="color: var(--primary-orange); letter-spacing: 1px; font-size: 0.85rem; font-weight: 700;">
+                                Elektronik Bateri</h6>
+                            <h2 class="fw-bold mb-3" style="color: var(--dark-gray);">ROLAND TD-17KVX2</h2>
+                            <ul class="list-group list-group-flush bg-transparent mb-3">
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pb-2 pt-0">
+                                    <i class="bi bi-cpu text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Ses Modülü:</span> TD-17 Genişletilmiş
+                                    Versiyon
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 py-2">
+                                    <i class="bi bi-record-circle text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Trampet Pad:</span> 12" Çift
+                                    Tetiklemeli
+                                    Mesh
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pt-2 pb-0">
+                                    <i class="bi bi-soundwave text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Zil Padleri:</span> Ultra İnce Hassas
+                                    Sensör
+                                </li>
+                            </ul>
+                            <p class="small mb-3 fw-bold" style="color: #ffaa00;"><i
+                                    class="bi bi-exclamation-circle me-1"></i>Stok Durumu: Sınırlı Sayıda</p>
+                            <hr class="border-secondary mb-3 mt-0" style="opacity: 0.2;">
+                            <h3 class="fw-bold mb-4" style="color: var(--primary-orange);">125.550 ₺ <span
+                                    class="text-muted text-decoration-line-through fs-5">106.800 ₺</span></h3>
+                            <button class="btn btn-custom w-100 py-3 text-uppercase fw-bold btn-modal-cart"
+                                style="letter-spacing: 1px;"><i class="bi bi-cart-plus me-2"></i>Sepete
+                                Ekle</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 3 -->
+    <div class="modal fade" id="productModal3" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-0 border-0">
+                <div class="modal-body p-0">
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3 z-3"
+                        data-bs-dismiss="modal"></button>
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light d-flex align-items-center justify-content-center p-4">
+                            <img src="https://cdn-image.bonedo.de/wp-media-folder-bonedoapp/uploads/2024/02/02_Tama_Superstar_50th_Anniv_Set-1024x614.jpg"
+                                class="img-fluid" alt="Akustik Davul" style="max-height: 400px; object-fit: contain;">
+                        </div>
+                        <div class="col-md-7 p-5">
+                            <h6 class="text-uppercase mb-2"
+                                style="color: var(--primary-orange); letter-spacing: 1px; font-size: 0.85rem; font-weight: 700;">
+                                Akustik Davul</h6>
+                            <h2 class="fw-bold mb-3" style="color: var(--dark-gray);">TAMA Superstar 50th
+                                Anniversary
+                            </h2>
+                            <ul class="list-group list-group-flush bg-transparent mb-3">
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pb-2 pt-0">
+                                    <i class="bi bi-award text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Seri:</span> 50th Anniversary Limited
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 py-2">
+                                    <i class="bi bi-tree text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Gövde Ağacı:</span> Akçaağaç (Maple)
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pt-2 pb-0">
+                                    <i class="bi bi-gear-wide-connected text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Donanım:</span> Star-Mount Sistemli
+                                    Krom
+                                </li>
+                            </ul>
+                            <p class="small mb-3 fw-bold" style="color: #ffaa00;"><i
+                                    class="bi bi-exclamation-circle me-1"></i>Stok Durumu: Sınırlı Sayıda</p>
+                            <hr class="border-secondary mb-3 mt-0" style="opacity: 0.2;">
+                            <h3 class="fw-bold mb-4" style="color: var(--primary-orange);">88.800 ₺</h3>
+                            <button class="btn btn-custom w-100 py-3 text-uppercase fw-bold btn-modal-cart"
+                                style="letter-spacing: 1px;"><i class="bi bi-cart-plus me-2"></i>Sepete
+                                Ekle</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 4 -->
+    <div class="modal fade" id="productModal4" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-0 border-0">
+                <div class="modal-body p-0">
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3 z-3"
+                        data-bs-dismiss="modal"></button>
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light d-flex align-items-center justify-content-center p-4">
+                            <img src="https://www.musicbros.co.uk/cdn/shop/files/Gibson-Dove-Mahogany-Satin-Vintage-Sunburst-Electro-Acoustic-Music-Bros-012.jpg?v=1750678151&width=1445"
+                                class="img-fluid" alt="Akustik Gitar" style="max-height: 400px; object-fit: contain;">
+                        </div>
+                        <div class="col-md-7 p-5">
+                            <h6 class="text-uppercase mb-2"
+                                style="color: var(--primary-orange); letter-spacing: 1px; font-size: 0.85rem; font-weight: 700;">
+                                Akustik Gitar</h6>
+                            <h2 class="fw-bold mb-3" style="color: var(--dark-gray);">Gibson Acoustic Dove</h2>
+                            <ul class="list-group list-group-flush bg-transparent mb-3">
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pb-2 pt-0">
+                                    <i class="bi bi-tree text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Kapak (Top):</span> AAA Kalite Ladin
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 py-2">
+                                    <i class="bi bi-layer-forward text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Arka & Yanlar:</span> Akçaağaç (Maple)
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pt-2 pb-0">
+                                    <i class="bi bi-brush text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Pickguard:</span> Özel "Dove" Kuş
+                                    İşlemeli
+                                </li>
+                            </ul>
+                            <p class="small mb-3 fw-bold" style="color: #ffaa00;"><i
+                                    class="bi bi-exclamation-circle me-1"></i>Stok Durumu: Sınırlı Sayıda</p>
+                            <hr class="border-secondary mb-3 mt-0" style="opacity: 0.2;">
+                            <h3 class="fw-bold mb-4" style="color: var(--primary-orange);">285.750 ₺</h3>
+                            <button class="btn btn-custom w-100 py-3 text-uppercase fw-bold btn-modal-cart"
+                                style="letter-spacing: 1px;"><i class="bi bi-cart-plus me-2"></i>Sepete
+                                Ekle</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 5 -->
+    <div class="modal fade" id="productModal5" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-0 border-0">
+                <div class="modal-body p-0">
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3 z-3"
+                        data-bs-dismiss="modal"></button>
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light d-flex align-items-center justify-content-center p-4">
+                            <img src="https://guitargeargiveaway.co.uk/wp-content/uploads/2026/02/Epiphone-Inspired-by-Gibson-Explorer-80s-EMG-Classic-White-2-scaled.jpg"
+                                class="img-fluid" alt="Elektro Gitar" style="max-height: 400px; object-fit: contain;">
+                        </div>
+                        <div class="col-md-7 p-5">
+                            <h6 class="text-uppercase mb-2"
+                                style="color: var(--primary-orange); letter-spacing: 1px; font-size: 0.85rem; font-weight: 700;">
+                                Elektro Gitar</h6>
+                            <h2 class="fw-bold mb-3" style="color: var(--dark-gray);">Epiphone Inspired by Gibson
+                                Explorer</h2>
+                            <ul class="list-group list-group-flush bg-transparent mb-3">
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pb-2 pt-0">
+                                    <i class="bi bi-lightning-charge text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Kasa (Body):</span> Klasik Explorer
+                                    Maun
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 py-2">
+                                    <i class="bi bi-magnet text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Manyetikler:</span> Aktif EMG 81/85
+                                    Kombosu
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pt-2 pb-0">
+                                    <i class="bi bi-grid-3x2 text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Klavye:</span> Abanoz (Ebony)
+                                </li>
+                            </ul>
+                            <p class="small mb-3 fw-bold" style="color: #ffaa00;"><i
+                                    class="bi bi-exclamation-circle me-1"></i>Stok Durumu: Sınırlı Sayıda</p>
+                            <hr class="border-secondary mb-3 mt-0" style="opacity: 0.2;">
+                            <h3 class="fw-bold mb-4" style="color: var(--primary-orange);">67.800 ₺</h3>
+                            <button class="btn btn-custom w-100 py-3 text-uppercase fw-bold btn-modal-cart"
+                                style="letter-spacing: 1px;"><i class="bi bi-cart-plus me-2"></i>Sepete
+                                Ekle</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 6 -->
+    <div class="modal fade" id="productModal6" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-0 border-0">
+                <div class="modal-body p-0">
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3 z-3"
+                        data-bs-dismiss="modal"></button>
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light d-flex align-items-center justify-content-center p-4">
+                            <img src="https://www.wolfmusiccompany.com/cdn/shop/files/wbeau0dzk4eti5zvw7ze.jpg?v=1708724680"
+                                class="img-fluid" alt="Synthesizer" style="max-height: 400px; object-fit: contain;">
+                        </div>
+                        <div class="col-md-7 p-5">
+                            <h6 class="text-uppercase mb-2"
+                                style="color: var(--primary-orange); letter-spacing: 1px; font-size: 0.85rem; font-weight: 700;">
+                                Bass Gitar</h6>
+                            <h2 class="fw-bold mb-3" style="color: var(--dark-gray);">ESP-LTD MLB-4 BLACK BLAST</h2>
+                            <ul class="list-group list-group-flush bg-transparent mb-3">
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pb-2 pt-0">
+                                    <i class="bi bi-tree text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Gövde & Sap:</span> Maun Kasa /
+                                    Akçaağaç
+                                    Sap
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 py-2">
+                                    <i class="bi bi-sliders text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Preamp Sistemi:</span> 3-Bant Aktif EQ
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pt-2 pb-0">
+                                    <i class="bi bi-music-note-list text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Perde:</span> 24 Extra Jumbo
+                                </li>
+                            </ul>
+                            <p class="small mb-3 fw-bold" style="color: #ffaa00;"><i
+                                    class="bi bi-exclamation-circle me-1"></i>Stok Durumu: Sınırlı Sayıda</p>
+                            <hr class="border-secondary mb-3 mt-0" style="opacity: 0.2;">
+                            <h3 class="fw-bold mb-4" style="color: var(--primary-orange);">90.000 ₺</h3>
+                            <button class="btn btn-custom w-100 py-3 text-uppercase fw-bold btn-modal-cart"
+                                style="letter-spacing: 1px;"><i class="bi bi-cart-plus me-2"></i>Sepete
+                                Ekle</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 7 -->
+    <div class="modal fade" id="productModal7" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-0 border-0">
+                <div class="modal-body p-0">
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3 z-3"
+                        data-bs-dismiss="modal"></button>
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light d-flex align-items-center justify-content-center p-4">
+                            <img src="https://images.ctfassets.net/javen7msabdh/5gScCQSK6zAn6lApQDk1aM/bc20eef674b7c22e362ea0f765e9c5fe/jvm410h-lifestyle-mobile-2.jpg?w=2880&fm=jpg&q=85"
+                                class="img-fluid" alt="Amfi" style="max-height: 400px; object-fit: contain;">
+                        </div>
+                        <div class="col-md-7 p-5">
+                            <h6 class="text-uppercase mb-2"
+                                style="color: var(--primary-orange); letter-spacing: 1px; font-size: 0.85rem; font-weight: 700;">
+                                Elektro Gitar Amfisi</h6>
+                            <h2 class="fw-bold mb-3" style="color: var(--dark-gray);">Marshall JVM410H Kafa Amfisi
+                            </h2>
+                            <ul class="list-group list-group-flush bg-transparent mb-3">
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pb-2 pt-0">
+                                    <i class="bi bi-fire text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Teknoloji:</span> %100 Lambalı Kafa
+                                    Amfi
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 py-2">
+                                    <i class="bi bi-sliders text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Kanal Yapısı:</span> 4 Bağımsız Kanal
+                                    (3'er Mod)
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pt-2 pb-0">
+                                    <i class="bi bi-speaker text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Güç Çıkışı:</span> 100 Watt RMS
+                                </li>
+                            </ul>
+                            <p class="small mb-3 fw-bold" style="color: #ffaa00;"><i
+                                    class="bi bi-exclamation-circle me-1"></i>Stok Durumu: Sınırlı Sayıda</p>
+                            <hr class="border-secondary mb-3 mt-0" style="opacity: 0.2;">
+                            <h3 class="fw-bold mb-4" style="color: var(--primary-orange);">121.100 ₺</h3>
+                            <button class="btn btn-custom w-100 py-3 text-uppercase fw-bold btn-modal-cart"
+                                style="letter-spacing: 1px;"><i class="bi bi-cart-plus me-2"></i>Sepete
+                                Ekle</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 8 -->
+    <div class="modal fade" id="productModal8" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-0 border-0">
+                <div class="modal-body p-0">
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3 z-3"
+                        data-bs-dismiss="modal"></button>
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light d-flex align-items-center justify-content-center p-4">
+                            <img src="https://cdn11.bigcommerce.com/s-c3f06q9uvc/images/stencil/1280x1280/products/524171/2145148/e5d9c41f-488b-4835-bd7f-9cfbc0e31ac1__24347.1773877415.jpg?c=1"
+                                class="img-fluid" alt="Amfi" style="max-height: 400px; object-fit: contain;">
+                        </div>
+                        <div class="col-md-7 p-5">
+                            <h6 class="text-uppercase mb-2"
+                                style="color: var(--primary-orange); letter-spacing: 1px; font-size: 0.85rem; font-weight: 700;">
+                                Zil & Aksam</h6>
+                            <h2 class="fw-bold mb-3" style="color: var(--dark-gray);">Dw Drums DWCP3002 Double Kick
+                            </h2>
+                            <ul class="list-group list-group-flush bg-transparent mb-3">
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pb-2 pt-0">
+                                    <i class="bi bi-link text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Tahrik Sistemi:</span> Çift Zincir
+                                    (Double
+                                    Chain)
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 py-2">
+                                    <i class="bi bi-hdd-rack text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Alt Plaka:</span> Çelik Döküm (Base
+                                    Plate)
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pt-2 pb-0">
+                                    <i class="bi bi-circle-square text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Tokmak:</span> İki Yönlü Keçe ve
+                                    Plastik
+                                </li>
+                            </ul>
+                            <p class="small mb-3 fw-bold" style="color: #ffaa00;"><i
+                                    class="bi bi-exclamation-circle me-1"></i>Stok Durumu: Sınırlı Sayıda</p>
+                            <hr class="border-secondary mb-3 mt-0" style="opacity: 0.2;">
+                            <h3 class="fw-bold mb-4" style="color: var(--primary-orange);">50.950 ₺</h3>
+                            <button class="btn btn-custom w-100 py-3 text-uppercase fw-bold btn-modal-cart"
+                                style="letter-spacing: 1px;"><i class="bi bi-cart-plus me-2"></i>Sepete
+                                Ekle</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 9 -->
+    <div class="modal fade" id="productModal9" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-0 border-0">
+                <div class="modal-body p-0">
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3 z-3"
+                        data-bs-dismiss="modal"></button>
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light d-flex align-items-center justify-content-center p-4">
+                            <img src="https://media.mydukkan.com/image/41573/OBJE/fp-30xcontentphoto141573.jpg"
+                                class="img-fluid" alt="Roland" style="max-height: 400px; object-fit: contain;">
+                        </div>
+                        <div class="col-md-7 p-5">
+                            <h6 class="text-uppercase mb-2"
+                                style="color: var(--primary-orange); letter-spacing: 1px; font-size: 0.85rem; font-weight: 700;">
+                                Dijital Piyano</h6>
+                            <h2 class="fw-bold mb-3" style="color: var(--dark-gray);">Roland FP-30X</h2>
+                            <ul class="list-group list-group-flush bg-transparent mb-3">
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pb-2 pt-0">
+                                    <i class="bi bi-cpu text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Ses Modülü:</span> SuperNATURAL Piano
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 py-2">
+                                    <i class="bi bi-music-note-list text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Klavye:</span> PHA-4 (Fildişi Hissiyatlı)
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pt-2 pb-0">
+                                    <i class="bi bi-bluetooth text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Bağlantı:</span> Bluetooth Audio & MIDI
+                                </li>
+                            </ul>
+                            <hr class="border-secondary mb-3 mt-0" style="opacity: 0.2;">
+                            <h3 class="fw-bold mb-4" style="color: var(--primary-orange);">45.500 ₺</h3>
+                            <button class="btn btn-custom w-100 py-3 text-uppercase fw-bold btn-modal-cart"
+                                style="letter-spacing: 1px;"><i class="bi bi-cart-plus me-2"></i>Sepete
+                                Ekle</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 10 -->
+    <div class="modal fade" id="productModal10" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-0 border-0">
+                <div class="modal-body p-0">
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3 z-3"
+                        data-bs-dismiss="modal"></button>
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light d-flex align-items-center justify-content-center p-4">
+                            <img src="https://astrings.co.uk/cdn/shop/products/p45.jpg?v=1676461642&width=1080"
+                                class="img-fluid" alt="Yamaha" style="max-height: 400px; object-fit: contain;">
+                        </div>
+                        <div class="col-md-7 p-5">
+                            <h6 class="text-uppercase mb-2"
+                                style="color: var(--primary-orange); letter-spacing: 1px; font-size: 0.85rem; font-weight: 700;">
+                                Dijital Piyano</h6>
+                            <h2 class="fw-bold mb-3" style="color: var(--dark-gray);">Yamaha P-45 B</h2>
+                            <ul class="list-group list-group-flush bg-transparent mb-3">
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pb-2 pt-0">
+                                    <i class="bi bi-cpu text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Ses Kaynağı:</span> AWM Stereo Sampling
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 py-2">
+                                    <i class="bi bi-music-note-list text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Tuşlar:</span> 88 Tuşlu GHS Klavye
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pt-2 pb-0">
+                                    <i class="bi bi-record-circle text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Polifoni:</span> 64 Ses
+                                </li>
+                            </ul>
+                            <hr class="border-secondary mb-3 mt-0" style="opacity: 0.2;">
+                            <h3 class="fw-bold mb-4" style="color: var(--primary-orange);">22.800 ₺</h3>
+                            <button class="btn btn-custom w-100 py-3 text-uppercase fw-bold btn-modal-cart"
+                                style="letter-spacing: 1px;"><i class="bi bi-cart-plus me-2"></i>Sepete
+                                Ekle</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 11 -->
+    <div class="modal fade" id="productModal11" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-0 border-0">
+                <div class="modal-body p-0">
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3 z-3"
+                        data-bs-dismiss="modal"></button>
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light d-flex align-items-center justify-content-center p-4">
+                            <img src="https://data.do-re.com.tr/Content/files/scarlett-2i2-4g-lifestyle-2.jpg"
+                                class="img-fluid" alt="Focusrite" style="max-height: 400px; object-fit: contain;">
+                        </div>
+                        <div class="col-md-7 p-5">
+                            <h6 class="text-uppercase mb-2"
+                                style="color: var(--primary-orange); letter-spacing: 1px; font-size: 0.85rem; font-weight: 700;">
+                                Ses Kartı</h6>
+                            <h2 class="fw-bold mb-3" style="color: var(--dark-gray);">Focusrite Scarlett 2i2 Gen4</h2>
+                            <ul class="list-group list-group-flush bg-transparent mb-3">
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pb-2 pt-0">
+                                    <i class="bi bi-mic text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Preamp:</span> 4. Nesil Mic Preamp
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 py-2">
+                                    <i class="bi bi-soundwave text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Çözünürlük:</span> 24-bit/192kHz
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pt-2 pb-0">
+                                    <i class="bi bi-usb-c text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Bağlantı:</span> USB-C
+                                </li>
+                            </ul>
+                            <hr class="border-secondary mb-3 mt-0" style="opacity: 0.2;">
+                            <h3 class="fw-bold mb-4" style="color: var(--primary-orange);">13.000 ₺</h3>
+                            <button class="btn btn-custom w-100 py-3 text-uppercase fw-bold btn-modal-cart"
+                                style="letter-spacing: 1px;"><i class="bi bi-cart-plus me-2"></i>Sepete
+                                Ekle</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 12 -->
+    <div class="modal fade" id="productModal12" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-0 border-0">
+                <div class="modal-body p-0">
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3 z-3"
+                        data-bs-dismiss="modal"></button>
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light d-flex align-items-center justify-content-center p-4">
+                            <img src="https://www.sescibaba.com/sm-7b-cardioid-mikrofon-shure-sm7b-vokal-microphone-86972-44-B.webp"
+                                class="img-fluid" alt="Shure" style="max-height: 400px; object-fit: contain;">
+                        </div>
+                        <div class="col-md-7 p-5">
+                            <h6 class="text-uppercase mb-2"
+                                style="color: var(--primary-orange); letter-spacing: 1px; font-size: 0.85rem; font-weight: 700;">
+                                Mikrofon</h6>
+                            <h2 class="fw-bold mb-3" style="color: var(--dark-gray);">Shure SM7B</h2>
+                            <ul class="list-group list-group-flush bg-transparent mb-3">
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pb-2 pt-0">
+                                    <i class="bi bi-mic-fill text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Tip:</span> Dinamik Mikrofon
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 py-2">
+                                    <i class="bi bi-record-circle text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Polar Pattern:</span> Kardioid
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pt-2 pb-0">
+                                    <i class="bi bi-shield-check text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Yalıtım:</span> Dahili Pop Filtresi
+                                </li>
+                            </ul>
+                            <hr class="border-secondary mb-3 mt-0" style="opacity: 0.2;">
+                            <h3 class="fw-bold mb-4" style="color: var(--primary-orange);">38.750 ₺</h3>
+                            <button class="btn btn-custom w-100 py-3 text-uppercase fw-bold btn-modal-cart"
+                                style="letter-spacing: 1px;"><i class="bi bi-cart-plus me-2"></i>Sepete
+                                Ekle</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 13 -->
+    <div class="modal fade" id="productModal13" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-0 border-0">
+                <div class="modal-body p-0">
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3 z-3"
+                        data-bs-dismiss="modal"></button>
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light d-flex align-items-center justify-content-center p-4">
+                            <img src="https://img-zuhalmuzik.mncdn.com/mnresize/1000/1000/images/product/1610045A_3.jpg"
+                                class="img-fluid" alt="Vic Firth" style="max-height: 400px; object-fit: contain;">
+                        </div>
+                        <div class="col-md-7 p-5">
+                            <h6 class="text-uppercase mb-2"
+                                style="color: var(--primary-orange); letter-spacing: 1px; font-size: 0.85rem; font-weight: 700;">
+                                Baget</h6>
+                            <h2 class="fw-bold mb-3" style="color: var(--dark-gray);">Vic Firth 5A American Classic</h2>
+                            <ul class="list-group list-group-flush bg-transparent mb-3">
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pb-2 pt-0">
+                                    <i class="bi bi-tree text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Ağaç Tipi:</span> Hickory (Ceviz)
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 py-2">
+                                    <i class="bi bi-award text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Seri:</span> American Classic
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pt-2 pb-0">
+                                    <i class="bi bi-dash text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Uç Tipi:</span> Ahşap Gözyaşı Uç
+                                </li>
+                            </ul>
+                            <hr class="border-secondary mb-3 mt-0" style="opacity: 0.2;">
+                            <h3 class="fw-bold mb-4" style="color: var(--primary-orange);">900 ₺</h3>
+                            <button class="btn btn-custom w-100 py-3 text-uppercase fw-bold btn-modal-cart"
+                                style="letter-spacing: 1px;"><i class="bi bi-cart-plus me-2"></i>Sepete
+                                Ekle</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 14 -->
+    <div class="modal fade" id="productModal14" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-0 border-0">
+                <div class="modal-body p-0">
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3 z-3"
+                        data-bs-dismiss="modal"></button>
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light d-flex align-items-center justify-content-center p-4">
+                            <img src="https://www.nstuffmusic.com/images/product/large/ae00-10486_1_.jpg"
+                                class="img-fluid" alt="Ernie Ball" style="max-height: 400px; object-fit: contain;">
+                        </div>
+                        <div class="col-md-7 p-5">
+                            <h6 class="text-uppercase mb-2"
+                                style="color: var(--primary-orange); letter-spacing: 1px; font-size: 0.85rem; font-weight: 700;">
+                                Gitar Teli</h6>
+                            <h2 class="fw-bold mb-3" style="color: var(--dark-gray);">Ernie Ball 2221 Regular Slinky
+                            </h2>
+                            <ul class="list-group list-group-flush bg-transparent mb-3">
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pb-2 pt-0">
+                                    <i class="bi bi-sort-numeric-down text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Kalınlık:</span> 10-46
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 py-2">
+                                    <i class="bi bi-circle text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Core Tipi:</span> Altıgen Çelik
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pt-2 pb-0">
+                                    <i class="bi bi-box text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Sargı:</span> Nickel-Plated Steel
+                                </li>
+                            </ul>
+                            <hr class="border-secondary mb-3 mt-0" style="opacity: 0.2;">
+                            <h3 class="fw-bold mb-4" style="color: var(--primary-orange);">380 ₺</h3>
+                            <button class="btn btn-custom w-100 py-3 text-uppercase fw-bold btn-modal-cart"
+                                style="letter-spacing: 1px;"><i class="bi bi-cart-plus me-2"></i>Sepete
+                                Ekle</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 15 -->
+    <div class="modal fade" id="productModal15" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-0 border-0">
+                <div class="modal-body p-0">
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3 z-3"
+                        data-bs-dismiss="modal"></button>
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-light d-flex align-items-center justify-content-center p-4">
+                            <img src="https://cdn.do-re.com.tr/zildjian-k-custom-hybrid-zil-seti-1425-hh-16c-18c-20r-c6b0807d760f2b139bb9b331eb2932ac-88046e5c07914e61572a2c489b0b00a1-max-pp.jpg"
+                                class="img-fluid" alt="Zildjian" style="max-height: 400px; object-fit: contain;">
+                        </div>
+                        <div class="col-md-7 p-5">
+                            <h6 class="text-uppercase mb-2"
+                                style="color: var(--primary-orange); letter-spacing: 1px; font-size: 0.85rem; font-weight: 700;">
+                                Zil & Aksam</h6>
+                            <h2 class="fw-bold mb-3" style="color: var(--dark-gray);">Zildjian K Custom Hybrid Zil Seti
+                            </h2>
+                            <ul class="list-group list-group-flush bg-transparent mb-3">
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pb-2 pt-0">
+                                    <i class="bi bi-disc text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Set İçeriği:</span> 14.25" HH, 16" & 18"
+                                    Crash, 20" Ride
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 py-2">
+                                    <i class="bi bi-star text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Alaşımlar:</span> Cast Bronze (B20)
+                                </li>
+                                <li class="list-group-item bg-transparent text-white border-0 px-0 pt-2 pb-0">
+                                    <i class="bi bi-soundwave text-muted me-2"></i><span class="fw-bold"
+                                        style="color: var(--primary-orange);">Karakter:</span> Geleneksel & Modern
+                                    Karışımı
+                                </li>
+                            </ul>
+                            <hr class="border-secondary mb-3 mt-0" style="opacity: 0.2;">
+                            <h3 class="fw-bold mb-4" style="color: var(--primary-orange);">90.000 ₺</h3>
+                            <button class="btn btn-custom w-100 py-3 text-uppercase fw-bold btn-modal-cart"
+                                style="letter-spacing: 1px;"><i class="bi bi-cart-plus me-2"></i>Sepete
+                                Ekle</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let cart = [];
+            const cartItemsContainer = document.getElementById('cartItems');
+            const cartTotalElement = document.getElementById('cartTotal');
+            const cartCountBadge = document.getElementById('cartCountBadge');
+
+            function updateCartUI() {
+                cartItemsContainer.innerHTML = '';
+                let total = 0;
+                let count = 0;
+
+                if (cart.length === 0) {
+                    cartItemsContainer.innerHTML = '<div class="text-center mt-5"><i class="bi bi-cart-x text-muted" style="font-size: 3rem;"></i><p class="text-muted mt-3">Sepetiniz şu an boş.</p></div>';
+                    cartCountBadge.style.display = 'none';
+                } else {
+                    cart.forEach((item, index) => {
+                        total += item.price * item.quantity;
+                        count += item.quantity;
+                        cartItemsContainer.innerHTML += `
+                            <div class="d-flex align-items-center mb-3 pb-3 border-bottom border-secondary" style="border-color: rgba(255,255,255,0.05) !important;">
+                                <img src="${item.image}" alt="${item.title}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 5px;">
+                                <div class="ms-3 flex-grow-1">
+                                    <h6 class="mb-1 text-white" style="font-size: 0.85rem;">${item.title}</h6>
+                                    <span class="text-white-50" style="font-size: 0.75rem;">Adet: ${item.quantity}</span>
+                                </div>
+                                <div class="text-end">
+                                    <div class="fw-bold mb-1" style="color: var(--primary-orange); font-size: 0.9rem;">${(item.price * item.quantity).toLocaleString('tr-TR')} ₺</div>
+                                    <button class="btn btn-sm btn-link text-danger p-0 border-0 text-decoration-none" onclick="removeFromCart(${index})"><i class="bi bi-trash"></i> Sil</button>
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    cartCountBadge.innerText = count;
+                    cartCountBadge.style.display = 'block';
+                }
+                cartTotalElement.innerText = total.toLocaleString('tr-TR') + ' ₺';
+            }
+
+            window.removeFromCart = function (index) {
+                cart.splice(index, 1);
+                updateCartUI();
+            };
+
+            function addToCart(title, price, image) {
+                const existing = cart.find(i => i.title === title);
+                if (existing) {
+                    existing.quantity += 1;
+                } else {
+                    cart.push({ title, price, image, quantity: 1 });
+                }
+                updateCartUI();
+
+                // Show Bootstrap Toast Notification
+                const toastEl = document.getElementById('cartToast');
+                if (toastEl) {
+                    const toast = bootstrap.Toast.getOrCreateInstance(toastEl);
+                    toast.show();
+                }
+            }
+
+            // Product Cards Add to Cart logic and Custom Modal Trigger
+            document.querySelectorAll('.product-card').forEach(card => {
+                // Prevent bootstrap's automatic default modal delegation to allow our stopPropagation approach
+                card.removeAttribute('data-bs-toggle');
+
+                card.addEventListener('click', function (e) {
+                    // Check if clicked the add to cart button
+                    if (e.target.closest('.btn-cart')) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        const title = card.querySelector('.product-title').innerText;
+                        let priceStr = card.querySelector('.product-price').innerText.split('₺')[0].replace('.', '').trim();
+                        const price = parseInt(priceStr);
+                        const image = card.querySelector('img').src;
+
+                        addToCart(title, price, image);
+                    } else {
+                        // Not the cart button, trigger the specific modal
+                        const target = card.getAttribute('data-bs-target');
+                        if (target) {
+                            const modal = new bootstrap.Modal(document.querySelector(target));
+                            modal.show();
+                        }
+                    }
+                });
+            });
+
+            // Modal Add to Cart logic
+            document.querySelectorAll('.modal').forEach(modal => {
+                const btn = modal.querySelector('.btn-modal-cart');
+                if (btn) {
+                    btn.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const title = modal.querySelector('h2').innerText;
+                        let priceStr = modal.querySelector('h3').innerText.split('₺')[0].replace('.', '').trim();
+                        const price = parseInt(priceStr);
+                        const image = modal.querySelector('img').src;
+
+                        addToCart(title, price, image);
+
+                        // Optionally hide modal after adding
+                        const modalInstance = bootstrap.Modal.getInstance(modal);
+                        if (modalInstance) modalInstance.hide();
+                    });
+                }
+            });
+
+            updateCartUI();
+
+            // Search Bar Interactions
+            const searchCollapse = document.getElementById('searchCollapse');
+            const searchInput = document.getElementById('searchInput');
+            const searchIcon = document.querySelector('[data-bs-target="#searchCollapse"]');
+
+            // Auto-focus input when opened
+            searchCollapse.addEventListener('shown.bs.collapse', function () {
+                searchInput.focus();
+            });
+
+            // Close when clicking outside
+            document.addEventListener('click', function (e) {
+                if (searchCollapse.classList.contains('show')) {
+                    if (!searchCollapse.contains(e.target) && e.target !== searchIcon && !searchIcon.contains(e.target)) {
+                        const bsCollapse = bootstrap.Collapse.getInstance(searchCollapse);
+                        if (bsCollapse) {
+                            bsCollapse.hide();
+                        }
+                    }
+                }
+            });
+
+            // Logout Simulation Logic
+            window.simulateLogout = function () {
+                const userDropdown = document.getElementById('userProfileDropdown');
+                if (userDropdown) {
+                    const icon = document.createElement('i');
+                    icon.className = 'bi bi-person nav-icon';
+                    icon.id = 'userLoginIcon';
+                    icon.setAttribute('data-bs-toggle', 'modal');
+                    icon.setAttribute('data-bs-target', '#authModal');
+                    userDropdown.parentNode.replaceChild(icon, userDropdown);
+                }
+            };
+
+            // Login Simulation Logic
+            function simulateLogin(name, emailParam) {
+                // Get the initials and first name
+                const firstName = name.split(' ')[0];
+                const initials = name.split(' ').map(n => n.charAt(0)).join('').substring(0, 2).toUpperCase();
+
+                // Get dynamic login time
+                const loginTime = new Date().toLocaleString('tr-TR');
+
+                // Update Profile Modal Details
+                const profileName = document.getElementById('profileName');
+                const profileEmail = document.getElementById('profileEmail');
+                const profileInitials = document.getElementById('profileInitials');
+                const profileTime = document.getElementById('profileTime');
+
+                if (profileName) profileName.innerText = name;
+                if (profileEmail) profileEmail.innerText = emailParam || 'mertali@mifamuzik.com';
+                if (profileInitials) profileInitials.innerText = initials || 'M';
+                if (profileTime) profileTime.innerText = loginTime;
+
+                // Close modal safely
+                const authModalEl = document.getElementById('authModal');
+                const authModal = bootstrap.Modal.getInstance(authModalEl);
+                if (authModal) authModal.hide();
+
+                // Replace icon with dropdown menu badge
+                const userIcon = document.getElementById('userLoginIcon');
+                if (userIcon) {
+                    const dropdownWrapper = document.createElement('div');
+                    dropdownWrapper.className = 'dropdown d-inline-block';
+                    dropdownWrapper.id = 'userProfileDropdown';
+
+                    dropdownWrapper.innerHTML = `
+                        <div class="nav-icon d-flex align-items-center justify-content-center fw-bold shadow-sm"
+                             data-bs-toggle="dropdown" aria-expanded="false"
+                             style="width: 32px; height: 32px; border-radius: 50%; background-color: var(--primary-orange); color: #121212; font-size: 0.9rem; cursor: pointer;">
+                            ${initials || 'M'}
+                        </div>
+                        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow-lg mt-3" style="background-color: #1a1a1a; border: 1px solid rgba(255,255,255,0.05);">
+                            <li><h6 class="dropdown-header text-white-50">Hoş geldin, ${firstName}</h6></li>
+                            <li><a class="dropdown-item text-white" href="#" data-bs-toggle="modal" data-bs-target="#profileModal">Profilim</a></li>
+                            <li><a class="dropdown-item disabled text-white-50" href="#">Siparişlerim</a></li>
+                            <li><hr class="dropdown-divider" style="border-color: rgba(255,255,255,0.1);"></li>
+                            <li><button class="dropdown-item btn-logout fw-bold" onclick="simulateLogout()">Çıkış Yap</button></li>
+                        </ul>
+                    `;
+                    userIcon.parentNode.replaceChild(dropdownWrapper, userIcon);
+                }
+            }
+
+            document.querySelectorAll('#authModal form').forEach(form => {
+                const btn = form.querySelector('button');
+                if (btn && btn.id !== 'btnSendReset') {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+
+                        let name = "";
+                        let emailParam = "";
+                        const nameInput = form.querySelector('input[type="text"]');
+                        const emailInput = form.querySelector('input[type="email"]');
+
+                        if (emailInput && emailInput.value.trim()) {
+                            emailParam = emailInput.value.trim();
+                        }
+
+                        if (nameInput && nameInput.value.trim()) {
+                            name = nameInput.value.trim();
+                        } else if (emailParam) {
+                            name = emailParam.split('@')[0];
+                        } else {
+                            name = "Mert Ali";
+                            emailParam = "mertali@mifamuzik.com";
+                        }
+
+                        simulateLogin(name, emailParam);
+                    });
+                }
+            });
+
+            // --- DYNAMIC FILTERING & SMOOTH SCROLL ---
+            const filterLinks = document.querySelectorAll('.filter-link');
+            const productCards = document.querySelectorAll('#productList > div');
+            const filterFeedbackText = document.getElementById('filterCategoryName');
+            const filterFeedbackDiv = document.getElementById('filterFeedback');
+            const viewAllBtn = document.getElementById('btnViewAll');
+
+            if (filterLinks.length > 0 && productCards.length > 0) {
+                // Initialize transition properties
+                productCards.forEach(col => {
+                    col.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                    col.style.opacity = '1';
+                });
+
+                filterLinks.forEach(link => {
+                    link.addEventListener('click', function (e) {
+                        // Let href="#urunler" handle the smooth scrolling naturally.
+                        const category = this.getAttribute('data-category');
+                        if (!category) return;
+
+                        let visibleCount = 0;
+                        productCards.forEach(col => {
+                            const cardCatElem = col.querySelector('.product-category');
+                            if (cardCatElem) {
+                                const cardCatText = cardCatElem.innerText.trim();
+                                if (cardCatText.toLowerCase().includes(category.toLowerCase())) {
+                                    col.style.display = 'block';
+                                    visibleCount++;
+                                    setTimeout(() => {
+                                        col.style.opacity = '1';
+                                        col.style.transform = 'scale(1)';
+                                    }, 50);
+                                } else {
+                                    col.style.opacity = '0';
+                                    col.style.transform = 'scale(0.95)';
+                                    setTimeout(() => col.style.display = 'none', 400);
+                                }
+                            }
+                        });
+
+                        // Show Feedback text
+                        if (visibleCount > 0) {
+                            filterFeedbackText.innerText = `${this.innerText.trim()} kategorisinde ${visibleCount} adet ürün listeleniyor`;
+                        } else {
+                            filterFeedbackText.innerText = `Bu kategoride şu an ürün bulunmamaktadır`;
+                        }
+
+                        filterFeedbackDiv.style.display = 'block';
+                        setTimeout(() => filterFeedbackDiv.style.opacity = '1', 10);
+                    });
+                });
+
+                // Search Bar Logic
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) {
+                    searchInput.addEventListener('input', function (e) {
+                        const query = e.target.value.toLowerCase().trim();
+                        let visibleCount = 0;
+
+                        productCards.forEach(col => {
+                            const titleElem = col.querySelector('.product-title');
+                            const catElem = col.querySelector('.product-category');
+
+                            if (titleElem && catElem) {
+                                const title = titleElem.innerText.toLowerCase();
+                                const cat = catElem.innerText.toLowerCase();
+
+                                if (title.includes(query) || cat.includes(query)) {
+                                    col.style.display = 'block';
+                                    visibleCount++;
+                                    setTimeout(() => {
+                                        col.style.opacity = '1';
+                                        col.style.transform = 'scale(1)';
+                                    }, 50);
+                                } else {
+                                    col.style.opacity = '0';
+                                    col.style.transform = 'scale(0.95)';
+                                    setTimeout(() => col.style.display = 'none', 400);
+                                }
+                            }
+                        });
+
+                        if (query === '') {
+                            filterFeedbackDiv.style.opacity = '0';
+                            setTimeout(() => filterFeedbackDiv.style.display = 'none', 500);
+                            viewAllBtn.innerText = "Tümünü Gör";
+                        } else {
+                            filterFeedbackDiv.style.display = 'block';
+                            setTimeout(() => filterFeedbackDiv.style.opacity = '1', 10);
+                            viewAllBtn.innerText = "Aramayı Temizle";
+
+                            if (visibleCount > 0) {
+                                filterFeedbackText.innerText = `Arama sonucunda ${visibleCount} adet ürün bulundu`;
+                            } else {
+                                filterFeedbackText.innerText = `Aradığınız kriterlere uygun ürün bulunamadı`;
+                            }
+                        }
+                    });
+                }
+
+                // View All Button Logic
+                if (viewAllBtn) {
+                    viewAllBtn.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        filterFeedbackDiv.style.opacity = '0';
+                        setTimeout(() => filterFeedbackDiv.style.display = 'none', 500);
+                        viewAllBtn.innerText = "Tümünü Gör"; // Restore original text
+
+                        if (searchInput) {
+                            searchInput.value = ''; // Clear search bar
+                        }
+
+                        productCards.forEach(col => {
+                            col.style.display = 'block';
+                            setTimeout(() => {
+                                col.style.opacity = '1';
+                                col.style.transform = 'scale(1)';
+                            }, 50);
+                        });
+                    });
+                }
+                // Forgot Password Logic
+                const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+                const backToLoginLink = document.getElementById('backToLoginLink');
+                const loginForm = document.getElementById('loginForm');
+                const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+                const btnSendReset = document.getElementById('btnSendReset');
+                const resetEmailInput = document.getElementById('resetEmail');
+                const btnSendResetText = document.getElementById('btnSendResetText');
+                const resetSpinner = document.getElementById('resetSpinner');
+                const resetSuccessAlert = document.getElementById('resetSuccessAlert');
+                const resetSuccessText = document.getElementById('resetSuccessText');
+
+                if (forgotPasswordLink && backToLoginLink && loginForm && forgotPasswordForm) {
+                    // Switch to Reset Form
+                    forgotPasswordLink.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        loginForm.style.display = 'none';
+                        forgotPasswordForm.style.display = 'block';
+                        // Reset forms when switching back
+                        resetSuccessAlert.classList.add('d-none');
+                        resetSuccessAlert.style.opacity = '0';
+                        btnSendReset.style.display = 'flex';
+                        resetEmailInput.value = '';
+                    });
+
+                    // Switch to Login Form
+                    backToLoginLink.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        forgotPasswordForm.style.display = 'none';
+                        loginForm.style.display = 'block';
+                    });
+
+                    // Send Reset Link Simulation
+                    btnSendReset.addEventListener('click', function () {
+                        const email = resetEmailInput.value.trim();
+                        if (!email) {
+                            resetEmailInput.focus();
+                            return;
+                        }
+
+                        // Show Spinner
+                        btnSendResetText.style.display = 'none';
+                        resetSpinner.classList.remove('d-none');
+
+                        // Simulate 1.5s Server Request
+                        setTimeout(() => {
+                            resetSpinner.classList.add('d-none');
+                            btnSendResetText.style.display = 'block';
+                            btnSendReset.style.display = 'none'; // Hide button after success
+
+                            // Show Success Alert
+                            resetSuccessText.innerText = `Sıfırlama bağlantısı ${email} adresine başarıyla gönderildi!`;
+                            resetSuccessAlert.classList.remove('d-none');
+                            setTimeout(() => {
+                                resetSuccessAlert.style.opacity = '1';
+                            }, 50);
+                        }, 1500);
+                    });
+                }
+            }
+
+        });
+    </script>
+    <style>
+        .auth-tab-btn {
+            color: rgba(255, 255, 255, 0.5) !important;
+            border-bottom: 2px solid transparent !important;
+            transition: all 0.3s ease;
+        }
+
+        .auth-tab-btn.active {
+            color: #fff !important;
+            border-bottom: 2px solid var(--primary-orange) !important;
+        }
+
+        .btn-logout {
+            color: #ff4d4d !important;
+            transition: all 0.3s ease;
+            background-color: transparent;
+        }
+
+        .btn-logout:hover {
+            color: #ff6b6b !important;
+            background-color: transparent !important;
+            text-shadow: 0 0 8px rgba(255, 77, 77, 0.4);
+        }
+    </style>
+    <!-- Auth Modal -->
+    <div class="modal fade" id="authModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-0 border-0" style="background-color: var(--bg-color);">
+                <div class="modal-header border-bottom border-secondary d-flex align-items-center"
+                    style="border-color: rgba(255,255,255,0.05) !important; padding: 0;">
+                    <ul class="nav nav-tabs border-0 flex-grow-1" id="authTab" role="tablist">
+                        <li class="nav-item w-50" role="presentation">
+                            <button
+                                class="nav-link active bg-transparent border-0 fw-bold w-100 py-3 rounded-0 auth-tab-btn"
+                                id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button"
+                                role="tab">Giriş Yap</button>
+                        </li>
+                        <li class="nav-item w-50" role="presentation">
+                            <button class="nav-link bg-transparent border-0 fw-bold w-100 py-3 rounded-0 auth-tab-btn"
+                                id="register-tab" data-bs-toggle="tab" data-bs-target="#register" type="button"
+                                role="tab">Kayıt Ol</button>
+                        </li>
+                    </ul>
+                    <div class="px-3">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            style="filter: invert(1) grayscale(100%) brightness(200%); opacity: 0.8;"></button>
+                    </div>
+                </div>
+                <div class="modal-body p-4 text-light">
+                    <div class="tab-content" id="authTabContent">
+                        <!-- Login -->
+                        <div class="tab-pane fade show active" id="login" role="tabpanel">
+                            <form id="loginForm">
+                                <div class="mb-3">
+                                    <label class="form-label text-white-50 small">E-Posta Adresi</label>
+                                    <input type="email" class="form-control text-white border-secondary shadow-none"
+                                        style="background-color: #1a1a1a;" placeholder="ornek@mifamuzik.com">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label text-white-50 small">Şifre</label>
+                                    <input type="password" class="form-control text-white border-secondary shadow-none"
+                                        style="background-color: #1a1a1a;" placeholder="••••••••">
+                                    <a href="#" id="forgotPasswordLink"
+                                        class="small text-decoration-none mt-2 d-block text-end"
+                                        style="color: var(--primary-orange);">Şifremi Unuttum</a>
+                                </div>
+                                <button type="button" class="btn btn-custom w-100 fw-bold py-2">GİRİŞ YAP</button>
+                            </form>
+
+                            <!-- Forgot Password Form (Hidden) -->
+                            <form id="forgotPasswordForm" style="display: none;">
+                                <h6 class="text-white fw-bold mb-3" style="letter-spacing: 0.5px;">ŞİFRE SIFIRLAMA</h6>
+                                <p class="text-white-50 small mb-3">Hesabınıza ait e-posta adresini girin, sıfırlama
+                                    bağlantısını anında yollayalım.</p>
+                                <div class="mb-4">
+                                    <label class="form-label text-white-50 small">E-Posta Adresi</label>
+                                    <input type="email" id="resetEmail"
+                                        class="form-control text-white border-secondary shadow-none"
+                                        style="background-color: #1a1a1a;" placeholder="ornek@mifamuzik.com">
+                                </div>
+                                <button type="button" id="btnSendReset"
+                                    class="btn btn-custom w-100 fw-bold py-2 d-flex justify-content-center align-items-center gap-2">
+                                    <span id="btnSendResetText">Bağlantıyı Gönder</span>
+                                    <div class="spinner-border spinner-border-sm text-dark d-none" id="resetSpinner"
+                                        role="status"></div>
+                                </button>
+
+                                <div id="resetSuccessAlert" class="mt-3 p-3 rounded-1 d-none text-center"
+                                    style="background-color: rgba(0, 255, 136, 0.05); border: 1px solid rgba(0, 255, 136, 0.2); opacity: 0; transition: opacity 0.5s ease;">
+                                    <i class="bi bi-check-circle-fill"
+                                        style="color: var(--primary-orange); font-size: 1.5rem;"></i>
+                                    <p class="mb-0 mt-2 small" id="resetSuccessText"
+                                        style="color: #fff; font-weight: 500;"></p>
+                                </div>
+
+                                <a href="#" id="backToLoginLink"
+                                    class="small text-decoration-none mt-4 d-flex justify-content-center align-items-center"
+                                    style="color: var(--primary-orange);"><i class="bi bi-arrow-left me-2"></i>Giriş
+                                    Ekranına Dön</a>
+                            </form>
+                        </div>
+                        <!-- Register -->
+                        <div class="tab-pane fade" id="register" role="tabpanel">
+                            <form>
+                                <div class="mb-3">
+                                    <label class="form-label text-white-50 small">Ad Soyad</label>
+                                    <input type="text" class="form-control text-white border-secondary shadow-none"
+                                        style="background-color: #1a1a1a;" placeholder="Adınız Soyadınız">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label text-white-50 small">E-Posta Adresi</label>
+                                    <input type="email" class="form-control text-white border-secondary shadow-none"
+                                        style="background-color: #1a1a1a;" placeholder="ornek@mifamuzik.com">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label text-white-50 small">Şifre Belirleyin</label>
+                                    <input type="password" class="form-control text-white border-secondary shadow-none"
+                                        style="background-color: #1a1a1a;" placeholder="En az 8 karakter">
+                                </div>
+                                <button type="button" class="btn btn-custom w-100 fw-bold py-2">HESAP
+                                    OLUŞTUR</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Offcanvas -->
+    <div class="offcanvas offcanvas-end border-start-0" tabindex="-1" id="cartOffcanvas"
+        aria-labelledby="cartOffcanvasLabel" style="background-color: var(--card-bg);">
+        <div class="offcanvas-header border-bottom border-secondary"
+            style="border-color: rgba(255,255,255,0.05) !important;">
+            <h5 class="offcanvas-title fw-bold" id="cartOffcanvasLabel" style="color: var(--primary-orange);"><i
+                    class="bi bi-cart3 me-2"></i>SEPETİM</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                style="filter: invert(1) grayscale(100%) brightness(200%);"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column p-4">
+            <div id="cartItems" class="flex-grow-1 overflow-auto pe-2">
+                <!-- Data injected by JS -->
+            </div>
+
+            <div class="mt-auto pt-4 border-top border-secondary"
+                style="border-color: rgba(255,255,255,0.05) !important;">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-white-50 text-uppercase" style="font-size: 0.85rem; letter-spacing: 1px;">Ara
+                        Toplam:</span>
+                    <h3 class="fw-bold mb-0" id="cartTotal" style="color: #fff;">0 ₺</h3>
+                </div>
+                <button class="btn btn-custom w-100 fw-bold py-3 text-uppercase">GÜVENLİ ÖDEME</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div class="modal fade" id="profileModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-0 border-0" style="background-color: var(--bg-color);">
+                <div class="modal-header border-bottom border-secondary"
+                    style="border-color: rgba(255,255,255,0.05) !important;">
+                    <h5 class="modal-title fw-bold" style="color: var(--primary-orange);"><i
+                            class="bi bi-person-badge me-2"></i>KULLANICI PROFİLİ</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        style="filter: invert(1) grayscale(100%) brightness(200%);"></button>
+                </div>
+                <div class="modal-body p-4 text-light">
+                    <div class="d-flex align-items-center mb-4 pb-4 border-bottom border-secondary"
+                        style="border-color: rgba(255,255,255,0.05) !important;">
+                        <div class="d-flex align-items-center justify-content-center fw-bold shadow-lg"
+                            id="profileInitials"
+                            style="width: 80px; height: 80px; border-radius: 50%; background-color: var(--primary-orange); color: #121212; font-size: 2.5rem; letter-spacing: -2px;">
+                            M
+                        </div>
+                        <div class="ms-4">
+                            <h4 class="fw-bold mb-1" id="profileName" style="color: #fff;">Mert Ali</h4>
+                            <span class="badge text-dark fw-bold px-2 py-1"
+                                style="background-color: var(--primary-orange); font-size: 0.75rem;">Premium
+                                Müzisyen</span>
+                        </div>
+                    </div>
+
+                    <ul class="list-group list-group-flush bg-transparent">
+                        <li
+                            class="list-group-item bg-transparent text-white border-0 px-0 py-2 d-flex align-items-center">
+                            <i class="bi bi-envelope text-muted me-3 fs-5"></i>
+                            <div>
+                                <div class="small text-white-50" style="font-size: 0.75rem;">E-Posta Adresi</div>
+                                <div class="fw-bold" id="profileEmail">mertali@mifamuzik.com</div>
+                            </div>
+                        </li>
+                        <li
+                            class="list-group-item bg-transparent text-white border-0 px-0 py-2 mt-2 d-flex align-items-center">
+                            <i class="bi bi-telephone text-muted me-3 fs-5"></i>
+                            <div>
+                                <div class="small text-white-50" style="font-size: 0.75rem;">Telefon Numarası</div>
+                                <div class="fw-bold" style="letter-spacing: 1px;">+90 5XX XXX XX XX</div>
+                            </div>
+                        </li>
+                        <li
+                            class="list-group-item bg-transparent text-white border-0 px-0 py-2 mt-2 d-flex align-items-center">
+                            <i class="bi bi-clock-history text-muted me-3 fs-5"></i>
+                            <div>
+                                <div class="small text-white-50" style="font-size: 0.75rem;">Oturum Açma Saati</div>
+                                <div class="fw-bold text-info" id="profileTime">--</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-footer border-0 pt-0 pb-4 px-4">
+                    <button type="button" class="btn btn-outline-danger w-100 fw-bold rounded-0 py-2"
+                        onclick="simulateLogout()" data-bs-dismiss="modal">
+                        <i class="bi bi-power me-2"></i>Hesaptan Çıkış Yap
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Coming Soon Modal -->
+    <div class="modal fade" id="comingSoonModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-0 border-0" style="background-color: var(--bg-color);">
+                <div class="modal-header border-bottom border-secondary"
+                    style="border-color: rgba(255,255,255,0.1) !important;">
+                    <h5 class="modal-title fw-bold" style="color: var(--primary-orange);"><i
+                            class="bi bi-stars me-2"></i>BİLGİLENDİRME</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        style="filter: invert(1) grayscale(100%) brightness(200%);"></button>
+                </div>
+                <div class="modal-body p-5 text-center text-light">
+                    <i class="bi bi-tools"
+                        style="font-size: 4rem; color: var(--primary-orange); margin-bottom: 20px; display: inline-block;"></i>
+                    <h4 class="fw-bold text-white mb-3">Bu özellik yakında MIFA'da!</h4>
+                    <p class="text-white-50 mb-0" style="font-size: 0.95rem; line-height: 1.6;">Harika bir deneyim
+                        sunabilmek için altyapı güncellemelerimiz devam ediyor. Bizi takip etmeye devam edin.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1060;">
+        <div id="cartToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive"
+            aria-atomic="true" data-bs-delay="2000">
+            <div class="d-flex">
+                <div class="toast-body fw-bold">
+                    <i class="bi bi-check-circle-fill me-2"></i> Ürün Sepete Eklendi!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
